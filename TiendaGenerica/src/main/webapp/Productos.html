@@ -58,18 +58,16 @@
             <div class="card">
                 <div class="card-body">
                     <br><br><br>
-                    <form action="">
+                    <form action="/archivoServlet" method="post" enctype="multipart/form-data">
                         <div class="text-center">
                             <div class="form-group">
                                     <label>Nombre del Archivo</label>
-                                    <input type="text" class="field" name="archivo"
-                                        placeholder="Nombre del Archivo" required>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary mb-2">Examinar</button>
+                                    <input type="file" name="archivo" accept=".csv" class="btn btn-primary mb-2">
                                 </div>
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary mb-2">Cargar</button>
+                                    <input type="submit" value="Cargar" class="btn btn-primary mb-2">
                                 </div>
                             
                         </div>

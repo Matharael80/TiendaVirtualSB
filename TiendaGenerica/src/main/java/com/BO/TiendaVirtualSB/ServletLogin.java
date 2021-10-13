@@ -32,13 +32,13 @@ public class ServletLogin extends HttpServlet {
 			
 			if(cte.validarUsuario(usuario,password)) {
 				System.out.println("Usuario y contraseña existe!!");
-				String redirectURL = "Usuarios.html";
+				String redirectURL = "Usuarios.jsp";
 			    response.sendRedirect(redirectURL);
 			}
 			else {
 				request.setAttribute("usuario", usuario); //envia 
 				request.setAttribute("password", password);
-				request.setAttribute("validacion", "Usuario o contraseña incorrecto");
+				request.setAttribute("validacion", "Usuario o contraseña errados, intente de nuevo");
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 				//writer.println("Bienvenido " + usuario + " con contraseña " + password);
 			}

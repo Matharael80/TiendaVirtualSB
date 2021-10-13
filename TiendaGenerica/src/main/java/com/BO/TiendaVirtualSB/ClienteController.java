@@ -6,25 +6,34 @@ import org.springframework.web.bind.annotation.RestController;
 import com.DAO.TiendaVirtualSB.ClienteDAO;
 import com.DTO.TiendaVirtualSB.ClienteVO;
 
+
 @RestController
 public class ClienteController {
 	
-	@RequestMapping("/crearCliente")
-	public void crearCliente(ClienteVO persona) 
-	 {
-		ClienteDAO Dao=new ClienteDAO(); 
-	    Dao.Crear(persona);	    
-	 }
-	 
+	ClienteDAO Dao=new ClienteDAO();
+	
 	@RequestMapping("/consultarCliente")
-	public ArrayList<ClienteVO> consultar(int documento) {
-		ClienteDAO Dao=new ClienteDAO(); 
-		return 	Dao.consultar(documento);
+	public ClienteVO consultar(int documento) {
+		return 	Dao.Consultar(documento);
 	}
+	
+	public boolean actualizar(ClienteVO client) { 
+		return 	Dao.Actualizar(client);
+	}
+	
+	@RequestMapping("/crearCliente")
+	public boolean crear(ClienteVO client) 
+	 {
+	    return Dao.Crear(client);
+	 }
+	
+	@RequestMapping("/borrarCliente")
+	public boolean borrar(ClienteVO client){
+	    return Dao.Borrar(client);	    
+	 }
 	
 	@RequestMapping("/listarCliente")
 	public ArrayList<ClienteVO> listarCliente() {
-		ClienteDAO Dao=new ClienteDAO(); 
 		return Dao.listarCliente();		
 	}
 	

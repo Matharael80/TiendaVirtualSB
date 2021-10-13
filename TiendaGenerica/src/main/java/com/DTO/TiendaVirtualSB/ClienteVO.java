@@ -5,7 +5,7 @@ public class ClienteVO {
 	 private int Cedula;
 	 private String Nombre_cliente;
 	 private String Direccion;
-	 private int Telefono;
+	 private String Telefono;
 	 private String Email;
 	 
 	public int getCedula() {
@@ -26,10 +26,10 @@ public class ClienteVO {
 	public void setDireccion(String direccion) {
 		Direccion = direccion;
 	}
-	public int getTelefono() {
+	public String getTelefono() {
 		return Telefono;
 	}
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		Telefono = telefono;
 	}
 	public String getEmail() {

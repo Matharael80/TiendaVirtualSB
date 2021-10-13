@@ -8,6 +8,8 @@ public class UsuarioVO {
 	private String password;
 	private String usuario;
 	
+	//public void Usuario() {}
+	
 	public int getCedula_usuario() {
 		return cedula_usuario;
 	}

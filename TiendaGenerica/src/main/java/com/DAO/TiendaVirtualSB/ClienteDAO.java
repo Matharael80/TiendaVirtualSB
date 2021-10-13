@@ -10,84 +10,94 @@ import com.DTO.TiendaVirtualSB.ClienteVO;
 
 public class ClienteDAO {
 		
-	public void Crear(ClienteVO persona) {
+	public boolean Crear(ClienteVO persona) {
 	 
 		Conexion conex= new Conexion();
   
 			try {
 				Statement estatuto = conex.getConnection().createStatement();
-				estatuto.executeUpdate("INSERT INTO clientes VALUES ('"+persona.getCedula()+"', '"+persona.getNombre_cliente()+"', '"+persona.getDireccion()+"', '"+persona.getTelefono()+"', '"+persona.getEmail()+"')");
-				JOptionPane.showMessageDialog(null, "Se ha creado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
+				String sql = "INSERT INTO clientes VALUES ("+persona.getCedula()+", '"+persona.getDireccion()+"', '"+persona.getEmail()+"', '"+persona.getNombre_cliente()+"', '"+persona.getTelefono()+"')";
+				System.out.println(sql);
+				int resultado = estatuto.executeUpdate(sql);
+				System.out.println(resultado);
 				estatuto.close();
 				conex.desconectar();
+				if (resultado == 1)return true;
+ 				else return false;
    
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				JOptionPane.showMessageDialog(null, "No se creo el cliente");
+				System.out.println("No se creo el Cliente");
+				return false;
 			}
 	} 
 
- 	public void Actualizar(ClienteVO persona) {
+ 	public boolean Actualizar(ClienteVO persona) {
 	 
  		Conexion conex= new Conexion();
 	  
  			try {
  				Statement estatuto = conex.getConnection().createStatement();
- 				estatuto.executeUpdate("UPDATE clientes SET ('"+persona.getNombre_cliente()+"', '"+persona.getDireccion()+"', '"+persona.getTelefono()+"', '"+persona.getEmail()+"' WHERE '"+persona.getCedula()+"')");
- 				JOptionPane.showMessageDialog(null, "Se ha actualizado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
+ 				int resultado = estatuto.executeUpdate("UPDATE clientes SET nombre_cliente='"+persona.getNombre_cliente()+"', direccion_cliente='"+persona.getDireccion()+"', telefono_cliente="+persona.getTelefono()+", email_cliente='"+persona.getEmail()+"' WHERE cedula_cliente="+persona.getCedula());
+ 				System.out.println(resultado);
  				estatuto.close();
  				conex.desconectar();
+ 				if (resultado == 1)return true;
+ 				else return false;
 	   
  			} catch (SQLException e) {
 	            System.out.println(e.getMessage());
-	            JOptionPane.showMessageDialog(null, "No se actualizo el cliente");
+	            System.out.println("No se actualizo el Cliente");
+	            return false;
  			}
 	 }
  
- 	public void Borrar(ClienteVO persona) {
+ 	public boolean Borrar(ClienteVO persona) {
 	 
  		Conexion conex= new Conexion();
 	  
  			try {
  				Statement estatuto = conex.getConnection().createStatement();
- 				estatuto.executeUpdate("DELETE FROM clientes WHERE '"+persona.getCedula()+"')");
- 				JOptionPane.showMessageDialog(null, "Se ha borrado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
+ 				int resultado = estatuto.executeUpdate("DELETE FROM clientes WHERE cedula_cliente= "+persona.getCedula());
+ 				System.out.println(resultado);
  				estatuto.close();
  				conex.desconectar();
+ 				if (resultado == 1)return true;
+ 				else return false;
 	   
  			} catch (SQLException e) {
 	            System.out.println(e.getMessage());
-	            JOptionPane.showMessageDialog(null, "No se borro el cliente");
+	            System.out.println("No se borro el Cliente");
+	            return false;
  			}
 	 }
  
- 	public ArrayList<ClienteVO> consultar(int documento) {
- 		ArrayList<ClienteVO> miCliente = new ArrayList<ClienteVO>();
+ 	public ClienteVO Consultar(int documento) {
+ 		ClienteVO persona = new ClienteVO();
  		Conexion conex= new Conexion();
     
  			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM clientes WHERE cedula= " + documento);
- 				consulta.setInt(1, documento);
+ 				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM clientes WHERE cedula_cliente= " + documento);
+ 				//consulta.setInt(1, documento);
  				ResultSet res = consulta.executeQuery();
    
  				if(res.next()){
- 					ClienteVO persona= new ClienteVO();
- 					persona.setCedula(Integer.parseInt(res.getString("Cedula")));
- 					persona.setNombre_cliente(res.getString("Nombre Completo"));
- 					persona.setDireccion(res.getString("Direccion"));
- 					persona.setTelefono(Integer.parseInt(res.getString("Telefono")));
- 					persona.setEmail(res.getString("Correo Electronico"));
- 
- 					miCliente.add(persona);
+ 					
+ 					persona.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
+ 					persona.setNombre_cliente(res.getString("nombre_cliente"));
+ 					persona.setDireccion(res.getString("direccion_cliente"));
+ 					persona.setTelefono(res.getString("telefono_cliente"));
+ 					persona.setEmail(res.getString("email_cliente"));
  				}
+ 				else persona=null;
  				res.close();
  				consulta.close();
  				conex.desconectar();
    
  			} catch (Exception e) {
- 				JOptionPane.showMessageDialog(null, "no se pudo consultar el cliente\n"+e);
+ 				System.out.println("No se pudo consultar el Cliente\n"+e);
  		}
- 		return miCliente;
+ 		return persona;
  }
 
  	public ArrayList<ClienteVO> listarCliente() {
@@ -102,7 +112,7 @@ public class ClienteDAO {
  					persona.setCedula(Integer.parseInt(res.getString("Cedula")));
  					persona.setNombre_cliente(res.getString("Nombre Completo"));
  					persona.setDireccion(res.getString("Direccion"));
- 					persona.setTelefono(Integer.parseInt(res.getString("Telefono")));
+ 					persona.setTelefono(res.getString("Telefono"));
  					persona.setEmail(res.getString("Correo Electronico"));
   
  					miCliente.add(persona);
@@ -115,28 +125,5 @@ public class ClienteDAO {
  				JOptionPane.showMessageDialog(null, "no se pudo listar clientes\n"+e);
  		}
  		return miCliente;
- }
-
- 	public boolean validarUsuario(String user, String pass) {
- 		Conexion conex= new Conexion();
- 		String sql = "SELECT * FROM usuarios WHERE usuario = '" + user + "' AND password = '" + pass + "'";
-    
- 			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql);
- 				//consulta.setInt(1, documento);
- 				System.out.println(sql);
- 				ResultSet res = consulta.executeQuery();
-   
- 				if (res != null && res.next() )
- 				{
- 					return true;
- 				}
- 					else return false;
-   
- 			} catch (Exception e) {
- 				System.out.println("Excepcion en clase clienteDAO metodo consultarUsuario\n"+e);
- 				return false;
- 		}
- }
-
+ 	}
 }

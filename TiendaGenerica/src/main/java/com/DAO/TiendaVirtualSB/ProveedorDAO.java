@@ -4,91 +4,51 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import com.DTO.TiendaVirtualSB.ProveedorVO;
 
 public class ProveedorDAO {
-	public void Crear(ProveedorVO prov) {
-		 
-		Conexion conex= new Conexion();
-  
-			try {
-				Statement estatuto = conex.getConnection().createStatement();
-				estatuto.executeUpdate("INSERT INTO proveedores VALUES ('"+prov.getNIT()+"', '"+prov.getNombre_proveedor()+"', '"+prov.getDireccion()+"', '"+prov.getTelefono()+"', '"+prov.getCiudad()+"')");
-				JOptionPane.showMessageDialog(null, "Se ha creado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
-				estatuto.close();
-				conex.desconectar();
-   
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				JOptionPane.showMessageDialog(null, "No se creo el Proveedor");
-			}
+	
+	public boolean Crear(ProveedorVO prov) {
+		String sql = "INSERT INTO proveedores VALUES ("+prov.getNIT()+", '"+prov.getCiudad()+"', '"+prov.getDireccion()+"', '"+prov.getNombre_proveedor()+"', '"+prov.getTelefono()+"')";
+		return ejecutarUpdate(sql);
 	} 	
 	
-	public void Actualizar(ProveedorVO prov) {
-		 
- 		Conexion conex= new Conexion();
-	  
- 			try {
- 				Statement estatuto = conex.getConnection().createStatement();
- 				estatuto.executeUpdate("UPDATE proveedores SET ('"+prov.getNombre_proveedor()+"', '"+prov.getDireccion()+"', '"+prov.getTelefono()+"', '"+prov.getCiudad()+"' WHERE '"+prov.getNIT()+"')");
- 				JOptionPane.showMessageDialog(null, "Se ha actualizado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
- 				estatuto.close();
- 				conex.desconectar();
-	   
- 			} catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	            JOptionPane.showMessageDialog(null, "No se actualizo el Proveedor");
- 			}
-	 }
+	public boolean Actualizar(ProveedorVO prov) {
+		String sql = "UPDATE proveedores SET ciudad_proveedor='"+prov.getCiudad()+"', direccion_proveedor='"+prov.getDireccion()+"', nombre_proveedor='"+prov.getNombre_proveedor()+"', telefono_proveedor='"+prov.getTelefono()+"' WHERE nitproveedor="+prov.getNIT();
+		return ejecutarUpdate(sql);
+	}
 		
-	public void Borrar(ProveedorVO prov) {
-		 
- 		Conexion conex= new Conexion();
-	  
- 			try {
- 				Statement estatuto = conex.getConnection().createStatement();
- 				estatuto.executeUpdate("DELETE FROM proveedores WHERE '"+prov.getNIT()+"')");
- 				JOptionPane.showMessageDialog(null, "Se ha borrado Exitosamente","InformaciÃ³n",JOptionPane.INFORMATION_MESSAGE);
- 				estatuto.close();
- 				conex.desconectar();
-	   
- 			} catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	            JOptionPane.showMessageDialog(null, "No se borro el Proveedor");
- 			}
-	 }
-	
-	public ArrayList<ProveedorVO> consultar(int documento) {
- 		ArrayList<ProveedorVO> miProveedor = new ArrayList<ProveedorVO>();
- 		Conexion conex= new Conexion();
-    
- 			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM proveedores WHERE NIT= " + documento);
- 				consulta.setInt(1, documento);
- 				ResultSet res = consulta.executeQuery();
-   
- 				if(res.next()){
- 					ProveedorVO prov= new ProveedorVO();
- 					prov.setNIT(Integer.parseInt(res.getString("NIT Proveedor")));
- 					prov.setNombre_proveedor(res.getString("Nombre Proveedor"));
- 					prov.setDireccion(res.getString("Direccion"));
- 					prov.setTelefono(res.getString("Telefono"));
- 					prov.setCiudad(res.getString("Ciudad"));
- 
- 					miProveedor.add(prov);
- 				}
- 				res.close();
- 				consulta.close();
- 				conex.desconectar();
-   
- 			} catch (Exception e) {
- 				JOptionPane.showMessageDialog(null, "no se pudo consultar el Proveedor\n"+e);
- 		}
- 		return miProveedor;
+	public boolean Borrar(ProveedorVO prov) {
+		String sql = "DELETE FROM proveedores WHERE nitproveedor="+prov.getNIT();
+		return ejecutarUpdate(sql);
 	}
 	
+	public ProveedorVO Consultar(int nit) {
+ 		ProveedorVO prov = new ProveedorVO();
+ 		Conexion conex= new Conexion();
+    
+ 		try {
+ 			PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM proveedores WHERE nitproveedor=" + nit);
+ 			//consulta.setInt(1, nit);
+			ResultSet res = consulta.executeQuery();
+   
+			if(res.next()) {
+				prov.setNIT(Integer.parseInt(res.getString("nitproveedor")));
+				prov.setNombre_proveedor(res.getString("nombre_proveedor"));
+				prov.setDireccion(res.getString("direccion_proveedor"));
+				prov.setTelefono(res.getString("telefono_proveedor"));
+				prov.setCiudad(res.getString("ciudad_proveedor"));
+ 			} else prov=null;
+			res.close();
+			consulta.close();
+			conex.desconectar();
+   
+ 		} catch (Exception e) {
+ 				System.out.println("No se pudo consultar el Proveedor\n"+e);
+ 		}
+ 		return prov;
+	}
+	/*
  	public ArrayList<ProveedorVO> listarProveedor() {
  		ArrayList<ProveedorVO> miProveedor = new ArrayList<ProveedorVO>();
  		Conexion conex= new Conexion();
@@ -115,5 +75,24 @@ public class ProveedorDAO {
  		}
  		return miProveedor;
  	}
+ 	*/
+ 	public boolean ejecutarUpdate(String sql) {
+ 		Conexion conex= new Conexion();
+ 		  
+		try {
+			Statement estatuto = conex.getConnection().createStatement();
+			System.out.println(sql);
+			int resultado = estatuto.executeUpdate(sql);
+			System.out.println(resultado);
+			estatuto.close();
+			conex.desconectar();
+			if (resultado == 1)return true;
+			else return false;
 
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			System.out.println("No se logro ejecutar el Update Proveedor: "+ sql);
+			return false;
+		}
+ 	}
 }

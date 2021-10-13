@@ -20,7 +20,7 @@
 
 <body>
 
-	<%@ page import = "com.BO.TiendaVirtualSB.*" %>
+	<%//@ page import = "com.BO.TiendaVirtualSB.*" %>
 	
     <div class="container">
         <div class="row pt-4">
@@ -70,7 +70,7 @@
                                 <a class="text-decoration-underline" href="">Olvidaste tu contraseña?</a><br><br />
 
                                 <input type="submit" class="btn btn-primary" name="aceptar" value="Aceptar">
-                                <input type="submit" class="btn btn-primary" name="aceptar" value="Cancelar">
+                                <input type="submit" class="btn btn-primary" name="cancelar" value="Cancelar">
                                 
                             </form>
                     </div>
