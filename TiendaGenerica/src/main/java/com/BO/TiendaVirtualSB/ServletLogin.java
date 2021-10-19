@@ -1,8 +1,6 @@
 package com.BO.TiendaVirtualSB;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +15,6 @@ public class ServletLogin extends HttpServlet {
     public ServletLogin() {
         //super();
     }
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

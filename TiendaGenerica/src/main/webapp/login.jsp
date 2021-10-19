@@ -29,8 +29,6 @@
 		}
 		else out.println("Usuario y contraseña NO encontrado!!");
 	%>
-	
-	</p>
-	
+	</p>	
 </body>
 </html>

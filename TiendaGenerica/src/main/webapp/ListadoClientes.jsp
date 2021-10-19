@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@page import="java.util.ArrayList" %>
+<%@page import="com.BO.TiendaVirtualSB.ClienteController"%>
+<%@page import="com.DTO.TiendaVirtualSB.ClienteVO"%>
 
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +19,6 @@
     <link rel="stylesheet" href="../css/fontello.css">
     <link rel="shortcut icon" href="img/icono.png" />
 </head>
-
 <body>
     <div class="container">
         <div class="row pt-4">
@@ -30,6 +32,11 @@
             </div>
         </div>
         <div class="row pt-4 ">
+        <% 
+        ArrayList<ClienteVO> ListaCliente = new ArrayList<ClienteVO>();      
+        ClienteController cliCtrl = new ClienteController();
+        ListaCliente = cliCtrl.listarCliente();                
+        %>
             <div class="col-12 text-justify">
                 <div class="card">
                     <div class="card-body text-center">
@@ -45,48 +52,33 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-    
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              </tr>
-                              <tr>
-                                <th scope="row">4</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              </tr>
+                              <%
+	                            
+	                            for (int i=0;i<ListaCliente.size();i++) {
+	                                ClienteVO cliente = new ClienteVO();
+	                                cliente = ListaCliente.get(i);	                                                  
+	                            
+	                            %>
+	                              <tr>
+	                                <th scope="row"><%out.print(i+1); %></th>
+	                                <td><%out.print(String.valueOf(cliente.getCedula()));%></td>
+	                                <td><%out.print(cliente.getNombre_cliente());%></td>
+	                                <td><%out.print(cliente.getEmail());%></td>
+	                                <td><%out.print(cliente.getDireccion());%></td>
+	                                <td><%out.print(cliente.getTelefono());%></td>    
+	                              </tr>
+	                              <%
+	                              
+	                                }
+	                            
+	                              %>                       
                             </tbody>
                           </table>
                     </div>
                 </div>
             </div>
-        </div>   
-    
+        </div>    
     </div>
-
     <script src="js/bootstrap.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -96,6 +88,5 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 </body>
 </html>

@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.DTO.TiendaVirtualSB.ProveedorVO;
-//import java.util.ArrayList;
-//import java.io.PrintWriter;
 
 @WebServlet("/servletProveedores")
 public class ServletProveedores extends HttpServlet {

@@ -1,11 +1,9 @@
 package com.BO.TiendaVirtualSB;
 
-//import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.DAO.TiendaVirtualSB.ProductoDAO;
 import com.DTO.TiendaVirtualSB.ProductoVO;
-
 
 @RestController
 public class ProductoController {
@@ -22,8 +20,7 @@ public class ProductoController {
 	}
 	
 	@RequestMapping("/crearProducto")
-	public boolean crear(ProductoVO product) 
-	{
+	public boolean crear(ProductoVO product) {
 	    return Dao.Crear(product);
 	}
 	

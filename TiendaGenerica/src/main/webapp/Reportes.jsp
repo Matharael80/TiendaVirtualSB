@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="../css/fontello.css" />
     <link rel="shortcut icon" href="img/icono.png" />
   </head>
-
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
+      <h1 class="card-title">Tienda Genérica </h1>
         <button
           class="navbar-toggler"
           type="button"
@@ -32,11 +32,10 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a href="Usuarios.jsp" class="nav-link">Usuarios</a>
+              <a href="Usuarios.jsp" target="_self" class="nav-link">Usuarios</a>
             </li>
             <li class="nav-item">
               <a href="Clientes.jsp" target="_self" class="nav-link">Clientes</a>
@@ -57,14 +56,12 @@
         </div>
       </div>
     </nav>
-    <br />
-   
+    <br />   
     <div class="text-center pt-4">
       <a class="boton_personalizado" href="ListadoUsuarios.jsp">Listado de Usuarios</a>
       <a class="boton_personalizado" href="ListadoClientes.jsp">Listado de Clientes</a>
       <a class="boton_personalizado" href="VentasCliente.jsp">Ventas por Cliente</a>
     </div>
-
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -74,6 +71,5 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 </body>
 </html>
