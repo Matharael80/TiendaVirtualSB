@@ -28,7 +28,6 @@ public class ServletArchivo extends HttpServlet {
 		
 	}
 	
-	//@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//ArrayList<ProductoVO> inputList = new ArrayList<ProductoVO>();
@@ -92,11 +91,11 @@ public class ServletArchivo extends HttpServlet {
 		    		  //System.out.println("Item: " + listaProductos.get(i).getCodigo());
 		    		  
 		    		  if(prodCtrl.crear(listaProductos.get(i))) {
-			        	  System.out.println("Adición de item " + (i + 1) + " exitosa!");
+			        	  System.out.println("Adición de item " + (i+1) + " exitosa!");
 			        	  contador++;
 			          }else {
 			        	  System.out.println("Adición de item " + i + " presento falla.");
-			        	  request.setAttribute("validacion", "Error: Item " + (i + 1) + " no se pudo adicionar a base de datos");
+			        	  request.setAttribute("validacion", "Error: Item " + i + " no se pudo adicionar a base de datos");
 			  		      request.getRequestDispatcher("Productos.jsp").forward(request, response);
 			  		      break;
 			          }

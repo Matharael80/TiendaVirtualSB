@@ -18,6 +18,17 @@
     <link rel="shortcut icon" href="img/icono.png" />
   </head>
   <body>
+  
+  	<%	
+		String cedula = String.valueOf(session.getAttribute("cedula_usuario"));
+		String name=(String)session.getAttribute("nombre_usuario");
+        if(name != null) { 
+        	System.out.println("Hola, "+name+" con cédula " + cedula +" a su perfil!");
+        } else {  
+		    System.out.println("Debe hacer login primero"); 
+		    %><jsp:forward page="index.jsp" /><%
+		}
+    %>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
       <h1 class="card-title">Tienda Genérica </h1>

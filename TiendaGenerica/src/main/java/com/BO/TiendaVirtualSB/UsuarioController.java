@@ -9,34 +9,34 @@ import com.DTO.TiendaVirtualSB.UsuarioVO;
 @RestController
 public class UsuarioController {
 	
-	UsuarioDAO Dao=new UsuarioDAO(); 
+	UsuarioDAO Dao=new UsuarioDAO();
 	
 	@RequestMapping("/consultarUsuario")
 	public UsuarioVO consultar(int documento) {
 		return 	Dao.Consultar(documento);
 	}
 	
-	public boolean actualizar(UsuarioVO user) { 
+	public boolean actualizar(UsuarioVO user) {
 		return 	Dao.Actualizar(user);
 	}
 	
 	@RequestMapping("/crearUsuario")
-	public boolean crear(UsuarioVO usu){ 
+	public boolean crear(UsuarioVO usu){
 	    return Dao.Crear(usu);	    
-	}
+	 }
 	
 	@RequestMapping("/borrarUsuario")
 	public boolean borrar(UsuarioVO usu){
 	    return Dao.Borrar(usu);	    
-	}
+	 }
 	
 	@RequestMapping("/listarUsuario")
-	public ArrayList<UsuarioVO> listarUsuario() { 
+	public ArrayList<UsuarioVO> listarUsuario() {
 		return Dao.listarUsuario();		
 	}
 	
 	@RequestMapping("/validarUsuario")
-	public boolean validarUsuario(String usuario, String password) {
+	public UsuarioVO validarUsuario(String usuario, String password) {
 		return Dao.validarUsuario(usuario,password);
 	}
 }

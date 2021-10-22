@@ -76,6 +76,7 @@ public class UsuarioDAO {
     
  			try {
  				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario= " + documento);
+ 				//consulta.setInt(1, documento);
  				ResultSet res = consulta.executeQuery();
    
  				if(res.next()){
@@ -99,11 +100,10 @@ public class UsuarioDAO {
  	public ArrayList<UsuarioVO> listarUsuario() {
  		ArrayList<UsuarioVO> miUsuario = new ArrayList<UsuarioVO>();
  		Conexion conex= new Conexion();
- 		String sql = "SELECT * FROM usuarios";
     
  			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql);
- 				ResultSet res = consulta.executeQuery(sql);
+ 				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM usuarios");
+ 				ResultSet res = consulta.executeQuery();
  				while(res.next()){
  					UsuarioVO usu= new UsuarioVO();
  					usu.setCedula_usuario(Integer.parseInt(res.getString("cedula_usuario")));
@@ -124,24 +124,31 @@ public class UsuarioDAO {
  		return miUsuario;
  	}
  	
- 	public boolean validarUsuario(String user, String pass) {
+ 	public UsuarioVO validarUsuario(String user, String pass) {
+ 		UsuarioVO usu= new UsuarioVO();
  		Conexion conex= new Conexion();
- 		String sql = "SELECT * FROM usuarios WHERE usuario = '" + user + "' AND password = '" + pass + "'";
     
  			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql); 				
- 				System.out.println(sql);
+ 				String sql = "SELECT * FROM usuarios WHERE usuario = '" + user + "' AND password = '" + pass + "'";
+ 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql);
+ 				//consulta.setInt(1, documento);
  				ResultSet res = consulta.executeQuery();
    
- 				if (res != null && res.next() )
- 				{
- 					return true;
+ 				if(res.next()){
+ 					usu.setCedula_usuario(Integer.parseInt(res.getString("cedula_usuario")));
+ 					usu.setEmail_usuario(res.getString("email_usuario"));
+ 					usu.setNombre_usuario(res.getString("nombre_usuario"));
+ 					usu.setPassword(res.getString("password"));
+ 					usu.setUsuario(res.getString("usuario"));
  				}
- 					else return false;
+ 				else usu=null;
+ 				res.close();
+ 				consulta.close();
+ 				conex.desconectar();
    
  			} catch (Exception e) {
- 				System.out.println("Excepcion en clase clienteDAO metodo consultarUsuario\n"+e);
- 				return false;
+ 				System.out.println("no se pudo consultar el Usuario\n"+e);
  		}
+ 		return usu;
  	}
 }

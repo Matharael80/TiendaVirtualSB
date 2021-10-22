@@ -24,11 +24,13 @@
 	<% UsuarioController cte = new UsuarioController();
 		if(cte.validarUsuario(usuario,password)) {
 			out.println("Usuario y contraseña existe!!");
-			String redirectURL = "Usuarios.html";
+			String redirectURL = "Usuarios.jsp";
 		    response.sendRedirect(redirectURL);
 		}
 		else out.println("Usuario y contraseña NO encontrado!!");
 	%>
-	</p>	
+	
+	</p>
+	
 </body>
 </html>

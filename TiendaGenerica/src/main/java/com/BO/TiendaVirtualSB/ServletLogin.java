@@ -1,11 +1,16 @@
 package com.BO.TiendaVirtualSB;
 
 import java.io.IOException;
+//import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.DTO.TiendaVirtualSB.UsuarioVO;
 
 
 @WebServlet("/servletlogin")
@@ -15,6 +20,7 @@ public class ServletLogin extends HttpServlet {
     public ServletLogin() {
         //super();
     }
+
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -26,9 +32,13 @@ public class ServletLogin extends HttpServlet {
 		if(usuario != null && password != null) {
 			
 			UsuarioController cte = new UsuarioController();
+			UsuarioVO user = cte.validarUsuario(usuario,password);
 			
-			if(cte.validarUsuario(usuario,password)) {
+			if(user != null) {
 				System.out.println("Usuario y contraseña existe!!");
+				HttpSession session=request.getSession();
+				session.setAttribute("cedula_usuario",user.getCedula_usuario());
+		        session.setAttribute("nombre_usuario",user.getNombre_usuario());
 				String redirectURL = "Usuarios.jsp";
 			    response.sendRedirect(redirectURL);
 			}

@@ -9,19 +9,17 @@ import java.sql.*;
  */
 public class Conexion {
    /**Parametros de conexion*/
-	/**
+	/*	
    static String bd = "tienda66_6";
    static String login = "root";
-   static String password = "SARGAXXI79";
+   static String password = "Hola123*";
    static String url = "jdbc:mysql://localhost:3306/" + bd;
-   */
-
+   	**/
    static String bd = "tienda666";
    static String login = "admin";
    static String password = "admin123";
    static String url = "jdbc:mysql://tiendavirtualjh.czo3ixoe3xoe.us-east-1.rds.amazonaws.com/" + bd;
-   
-
+	 
    Connection connection = null;
 
    /** Constructor de DbConnection */

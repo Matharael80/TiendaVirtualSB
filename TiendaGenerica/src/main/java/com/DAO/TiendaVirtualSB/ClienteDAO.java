@@ -9,13 +9,13 @@ import com.DTO.TiendaVirtualSB.ClienteVO;
 
 public class ClienteDAO {
 		
-	public boolean Crear(ClienteVO cli) {
+	public boolean Crear(ClienteVO persona) {
 	 
 		Conexion conex= new Conexion();
   
 			try {
 				Statement estatuto = conex.getConnection().createStatement();
-				String sql = "INSERT INTO clientes VALUES ("+cli.getCedula()+", '"+cli.getDireccion()+"', '"+cli.getEmail()+"', '"+cli.getNombre_cliente()+"', '"+cli.getTelefono()+"')";
+				String sql = "INSERT INTO clientes VALUES ("+persona.getCedula()+", '"+persona.getDireccion()+"', '"+persona.getEmail()+"', '"+persona.getNombre_cliente()+"', '"+persona.getTelefono()+"')";
 				System.out.println(sql);
 				int resultado = estatuto.executeUpdate(sql);
 				System.out.println(resultado);
@@ -31,13 +31,13 @@ public class ClienteDAO {
 			}
 	} 
 
- 	public boolean Actualizar(ClienteVO cli) {
+ 	public boolean Actualizar(ClienteVO persona) {
 	 
  		Conexion conex= new Conexion();
 	  
  			try {
  				Statement estatuto = conex.getConnection().createStatement();
- 				int resultado = estatuto.executeUpdate("UPDATE clientes SET nombre_cliente='"+cli.getNombre_cliente()+"', direccion_cliente='"+cli.getDireccion()+"', telefono_cliente="+cli.getTelefono()+", email_cliente='"+cli.getEmail()+"' WHERE cedula_cliente="+cli.getCedula());
+ 				int resultado = estatuto.executeUpdate("UPDATE clientes SET nombre_cliente='"+persona.getNombre_cliente()+"', direccion_cliente='"+persona.getDireccion()+"', telefono_cliente="+persona.getTelefono()+", email_cliente='"+persona.getEmail()+"' WHERE cedula_cliente="+persona.getCedula());
  				System.out.println(resultado);
  				estatuto.close();
  				conex.desconectar();
@@ -51,13 +51,13 @@ public class ClienteDAO {
  			}
 	 }
  
- 	public boolean Borrar(ClienteVO cli) {
+ 	public boolean Borrar(ClienteVO persona) {
 	 
  		Conexion conex= new Conexion();
 	  
  			try {
  				Statement estatuto = conex.getConnection().createStatement();
- 				int resultado = estatuto.executeUpdate("DELETE FROM clientes WHERE cedula_cliente= "+cli.getCedula());
+ 				int resultado = estatuto.executeUpdate("DELETE FROM clientes WHERE cedula_cliente= "+persona.getCedula());
  				System.out.println(resultado);
  				estatuto.close();
  				conex.desconectar();
@@ -72,7 +72,7 @@ public class ClienteDAO {
 	 }
  
  	public ClienteVO Consultar(int documento) {
- 		ClienteVO cli = new ClienteVO();
+ 		ClienteVO persona = new ClienteVO();
  		Conexion conex= new Conexion();
     
  			try {
@@ -82,13 +82,13 @@ public class ClienteDAO {
    
  				if(res.next()){
  					
- 					cli.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
- 					cli.setNombre_cliente(res.getString("nombre_cliente"));
- 					cli.setDireccion(res.getString("direccion_cliente"));
- 					cli.setTelefono(res.getString("telefono_cliente"));
- 					cli.setEmail(res.getString("email_cliente"));
+ 					persona.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
+ 					persona.setNombre_cliente(res.getString("nombre_cliente"));
+ 					persona.setDireccion(res.getString("direccion_cliente"));
+ 					persona.setTelefono(res.getString("telefono_cliente"));
+ 					persona.setEmail(res.getString("email_cliente"));
  				}
- 				else cli=null;
+ 				else persona=null;
  				res.close();
  				consulta.close();
  				conex.desconectar();
@@ -96,26 +96,25 @@ public class ClienteDAO {
  			} catch (Exception e) {
  				System.out.println("No se pudo consultar el Cliente\n"+e);
  		}
- 		return cli;
+ 		return persona;
  }
 
- 	public ArrayList<ClienteVO> listarCliente() {
+ 	public ArrayList<ClienteVO> ListarCliente() {
  		ArrayList<ClienteVO> miCliente = new ArrayList<ClienteVO>();
  		Conexion conex= new Conexion();
- 		String sql = "SELECT * FROM clientes";
     
  			try {
- 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql);
- 				ResultSet res = consulta.executeQuery(sql);
+ 				PreparedStatement consulta = conex.getConnection().prepareStatement("SELECT * FROM clientes");
+ 				ResultSet res = consulta.executeQuery();
  				while(res.next()){
- 					ClienteVO cli= new ClienteVO();
- 					cli.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
- 					cli.setNombre_cliente(res.getString("nombre_cliente"));
- 					cli.setDireccion(res.getString("direccion_cliente"));
- 					cli.setTelefono(res.getString("telefono_cliente"));
- 					cli.setEmail(res.getString("email_cliente"));
+ 					ClienteVO cte= new ClienteVO();
+ 					cte.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
+ 					cte.setNombre_cliente(res.getString("nombre_cliente"));
+ 					cte.setDireccion(res.getString("direccion_cliente"));
+ 					cte.setTelefono(res.getString("telefono_cliente"));
+ 					cte.setEmail(res.getString("email_cliente"));
   
- 					miCliente.add(cli);
+ 					miCliente.add(cte);
  				}
  				res.close();
  				consulta.close();
@@ -123,6 +122,36 @@ public class ClienteDAO {
    
  			} catch (Exception e) {
  				System.out.println("no se pudo listar clientes\n"+e);
+ 		}
+ 		return miCliente;
+ 	}
+ 	
+ 	public ArrayList<ClienteVO> VentasCliente() {
+ 		ArrayList<ClienteVO> miCliente = new ArrayList<ClienteVO>();
+ 		Conexion conex= new Conexion();
+    
+ 			try {
+ 				String sql = "SELECT V.cedula_cliente, nombre_cliente, SUM(valor_venta) AS 'ventas'"
+ 						+ " FROM ventas AS V"
+ 						+ " JOIN clientes AS C"
+ 						+ " ON V.cedula_cliente=C.cedula_cliente"
+ 						+ " GROUP BY cedula_cliente";
+ 				PreparedStatement consulta = conex.getConnection().prepareStatement(sql);
+ 				ResultSet res = consulta.executeQuery();
+ 				while(res.next()){
+ 					ClienteVO cte= new ClienteVO();
+ 					cte.setCedula(Integer.parseInt(res.getString("cedula_cliente")));
+ 					cte.setNombre_cliente(res.getString("nombre_cliente"));
+ 					cte.setValorVentas(Double.parseDouble(res.getString("ventas")));
+ 					
+ 					miCliente.add(cte);
+ 				}
+ 				res.close();
+ 				consulta.close();
+ 				conex.desconectar();
+   
+ 			} catch (Exception e) {
+ 				System.out.println("no se pudo listar ventas de clientes\n"+e);
  		}
  		return miCliente;
  	}

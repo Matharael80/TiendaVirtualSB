@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.DTO.TiendaVirtualSB.ClienteVO;
+//import java.util.ArrayList;
+//import java.io.PrintWriter;
 
 @WebServlet("/servletClientes")
 public class ServletClientes extends HttpServlet {
@@ -124,7 +126,8 @@ public class ServletClientes extends HttpServlet {
         } else return null;
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		doGet(request, response);
 	}
 }

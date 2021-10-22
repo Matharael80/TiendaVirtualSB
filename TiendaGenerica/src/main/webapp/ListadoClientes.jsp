@@ -20,6 +20,55 @@
     <link rel="shortcut icon" href="img/icono.png" />
 </head>
 <body>
+	<%	
+		String cedula = String.valueOf(session.getAttribute("cedula_usuario"));
+		String name=(String)session.getAttribute("nombre_usuario");
+        if(name != null) {
+        	System.out.println("Hola, "+name+" con cédula " + cedula +" a su perfil!");
+        } else {  
+		    System.out.println("Debe hacer login primero"); 
+		    %><jsp:forward page="index.jsp" /><%
+		}
+    %>
+	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+        		<h1 class="card-title">Tienda Genérica </h1>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Menu Navegacion ">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="Usuarios.jsp" target="_self" class="nav-link">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Clientes.jsp" class="nav-link">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Proveedores.jsp" target="_self" class="nav-link">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Productos.jsp" target="_self" class="nav-link">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Ventas.jsp" target="_self" class="nav-link">Ventas</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="Reportes.jsp" target="_self" class="nav-link">Reportes</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+	<br>
+
     <div class="container">
         <div class="row pt-4">
             <div class="col">

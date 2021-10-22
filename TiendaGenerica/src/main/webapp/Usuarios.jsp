@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
+    pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,7 +17,20 @@
     <link rel="stylesheet" href="../css/fontello.css">
     <link rel="shortcut icon" href="img/icono.png" />
 </head>
-<body>	
+
+<body>
+	
+	<%	
+		String cedula = String.valueOf(session.getAttribute("cedula_usuario"));
+		String name=(String)session.getAttribute("nombre_usuario");
+        if(name != null) { 
+        	System.out.println("Hola, "+name+" con cédula " + cedula +" a su perfil!");
+        } else {  
+		    System.out.println("Debe hacer login primero"); 
+		    %><jsp:forward page="index.jsp" /><%
+		}
+    %>
+	
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
         		<h1 class="card-title">Tienda Genérica </h1>
@@ -44,12 +59,19 @@
                     <li class="nav-item">
                         <a href="Reportes.jsp" target="_self" class="nav-link">Reportes</a>
                     </li>
+
                 </ul>
+
             </div>
+
         </div>
+
     </nav>
-	<br>	
-	<div class="row pt-4s" align="center">	    
+	<br>
+	    
+	
+	<div class="row pt-4s" align="center">
+	    
 	    	<div class="col-sm-12">
 	    		<form action="/servletUsuarios" method="get" >
 	        		<div class="card" id="card-2">
@@ -104,25 +126,31 @@
 							</div>
 						</div>
 					</div>
-                </div>            
+                </div>
+            
 				<% 
-                	if(request.getAttribute("validacion") != null) {                		
+                	if(request.getAttribute("validacion") != null) {
+                		
 					String validacion = (String)request.getAttribute("validacion");
 					%>
 					<p style="color:red;"> <%= validacion%> </p>
 					<% 
 				}
 				%>
-	    <hr>	    	
+	    <hr>
+	    	
 	   	<input type="submit" class="boton_personalizado" name="botonConsultar" value="Consultar">
 		<input type="submit" class="boton_personalizado" name="botonActualizar" value="Actualizar">
 		<input type="submit" class="boton_personalizado" name="botonCrear" value="Crear">
-		<input type="submit" class="boton_personalizado" name="botonBorrar" value="Borrar">	
+		<input type="submit" class="boton_personalizado" name="botonBorrar" value="Borrar">
+	
 	    <script src="../js/jquery-3.5.1.min.js"></script>
 	    <script src="../js/popper.min.js"></script>
-	    <script src="../js/bootstrap.min.js"></script>	    
+	    <script src="../js/bootstrap.min.js"></script>
+	    
 		</form>
 	</div>
 	</div>
 </body>
+
 </html>

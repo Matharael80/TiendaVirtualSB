@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.DAO.TiendaVirtualSB.ClienteDAO;
 import com.DTO.TiendaVirtualSB.ClienteVO;
 
+
 @RestController
 public class ClienteController {
 	
@@ -21,7 +22,8 @@ public class ClienteController {
 	}
 	
 	@RequestMapping("/crearCliente")
-	public boolean crear(ClienteVO client) {
+	public boolean crear(ClienteVO client) 
+	 {
 	    return Dao.Crear(client);
 	 }
 	
@@ -32,7 +34,11 @@ public class ClienteController {
 	
 	@RequestMapping("/listarCliente")
 	public ArrayList<ClienteVO> listarCliente() {
-		return Dao.listarCliente();		
+		return Dao.ListarCliente();		
 	}
 	
+	@RequestMapping("/ventasCliente")
+	public ArrayList<ClienteVO> ventasCliente() {
+		return Dao.VentasCliente();		
+	}
 }

@@ -7,6 +7,7 @@ public class ClienteVO {
 	 private String Direccion;
 	 private String Telefono;
 	 private String Email;
+	 private double ValorVentas;
 	 
 	public int getCedula() {
 		return Cedula;
@@ -38,5 +39,10 @@ public class ClienteVO {
 	public void setEmail(String email) {
 		Email = email;
 	}
-	
+	public double getValorVentas() {
+		return ValorVentas;
+	}
+	public void setValorVentas(double valorVentas) {
+		ValorVentas = valorVentas;
+	}
 }
